@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { UrlShortenerModule } from './url-shortener/url-shortener.module';
 
 @Module({
   imports: [
@@ -14,10 +16,12 @@ import { AppService } from './app.service';
         url: configService.get('DATABASE_URL'),
         type: 'postgres',
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
+        namingStrategy: new SnakeNamingStrategy(),
       }),
       inject: [ConfigService],
     }),
+    UrlShortenerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
