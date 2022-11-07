@@ -30,8 +30,9 @@ export class UrlShortenerService {
     }
 
     let shorten: string;
+    const size = this.configService.get<number>('SHORTEN_URL_SIZE');
     while (true) {
-      shorten = nanoid(10);
+      shorten = nanoid(size);
       item = await this.findOne({ where: { shorten } });
       if (!item) {
         break;

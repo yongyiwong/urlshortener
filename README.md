@@ -24,3 +24,11 @@ src/url-shortener/url-shortener.controller.ts
     ...
   }
 ```
+
+# size unique url can be controlled through size of shorten url
+
+size of shorten url is defined in env
+
+```bash
+  SHORTEN_URL_SIZE=10
+```
