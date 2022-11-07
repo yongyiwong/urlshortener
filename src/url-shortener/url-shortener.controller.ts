@@ -1,20 +1,30 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Redirect } from '@nestjs/common';
 import { CreateUrlShortenerDto } from './dto/create-url-shortener.dto';
 import { UrlShortenerService } from './url-shortener.service';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('url-shortener')
+@Controller('shortener')
 @ApiTags('Url Shortener')
 export class UrlShortenerController {
   constructor(private readonly urlShortenerService: UrlShortenerService) {}
 
+  /*
+   * Create Shorten Url
+   */
   @Post()
-  create(@Body() createDto: CreateUrlShortenerDto) {
-    return this.urlShortenerService.create(createDto);
+  async create(@Body() { origin }: CreateUrlShortenerDto) {
+    return this.urlShortenerService.create({
+      origin: /^http(s)?:\/\//.test(origin) ? origin : `https://${origin}`,
+    });
   }
 
-  @Get()
-  findAll() {
-    return this.urlShortenerService.findAll();
+  /*
+   * Redirect Shorten Url to Origin
+   */
+  @Get(':shorten')
+  @Redirect('', 301)
+  async get(@Param('shorten') shorten: string) {
+    const url = await this.urlShortenerService.get(shorten);
+    return { url };
   }
 }
