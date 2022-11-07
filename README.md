@@ -25,7 +25,7 @@ src/url-shortener/url-shortener.controller.ts
   }
 ```
 
-# size unique url can be controlled through size of shorten url
+# size of unique urls can be controlled through size of shorten url
 
 size of shorten url is defined in env
 
