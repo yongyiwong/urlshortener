@@ -29,9 +29,7 @@ async function bootstrap() {
     }),
   );
 
-  console.log(configService.get('API_PORT') || 3000);
-
-  await app.listen(configService.get('API_PORT') || 3000);
+  await app.listen(configService.get('API_PORT'));
 }
 
 bootstrap();
